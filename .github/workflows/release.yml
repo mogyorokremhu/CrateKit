@@ -1,9 +1,17 @@
 name: Release
 
-# Push a tag like v1.0.1 and this builds the mod and publishes a GitHub Release with the .jar attached.
+# Two ways to release:
+#  1. Push a tag like v1.0.1 (git tag v1.0.1 && git push origin v1.0.1), or
+#  2. GitHub -> Actions -> Release -> "Run workflow" and type the version (for example 1.0.1).
+# Either way the mod is built and a GitHub Release is published with the .jar attached.
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, without the v (for example 1.0.0)"
+        required: true
 
 permissions:
   contents: write
@@ -18,17 +26,25 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
+      - name: Work out the version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then V="${{ inputs.version }}"; else V="${GITHUB_REF_NAME#v}"; fi
+          V="${V#v}"
+          echo "VERSION=$V" >> "$GITHUB_ENV"
       - name: Build
-        run: ./gradlew build -Pmod_version="${GITHUB_REF_NAME#v}"
+        run: ./gradlew build -Pmod_version="$VERSION"
       - name: Extract release notes from CHANGELOG.md
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
           awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" {f=1; next} /^## \[/ {f=0} f' CHANGELOG.md > notes.md
           if [ ! -s notes.md ]; then echo "Release $VERSION" > notes.md; fi
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          gh release create "$GITHUB_REF_NAME" "build/libs/cratekit-${VERSION}.jar" \
-            --title "CrateKit $VERSION" --notes-file notes.md
+          JAR="build/libs/cratekit-${VERSION}.jar"
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            gh release upload "v$VERSION" "$JAR" --clobber
+          else
+            gh release create "v$VERSION" "$JAR" --target "$GITHUB_SHA" \
+              --title "CrateKit $VERSION" --notes-file notes.md
+          fi
