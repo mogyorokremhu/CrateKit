@@ -1,27 +1,36 @@
 # CrateKit
 
-A Minecraft mod for Fabric servers that lets you **create kits from your inventory** and lets players **claim them by typing a command in chat**, with a chest-style GUI for browsing and managing everything.
+Create **kits** from your inventory and let players **claim them by typing a command in chat**, with a chest-style GUI for browsing and managing everything.
 
-- **Server-side only.** Players do not need to install anything, vanilla clients can join.
 - **Your own claim commands.** Each kit can have its own command, like `/starter` or `/vip`. If you don't pick one, players use `/kit claim <name>`.
 - **Cooldowns.** Choose how long players wait before they can claim a kit again, or make it one-time only.
 - **GUI.** Browse, preview, claim, create, edit and delete kits from menus.
 - **Everything is editable.** Contents, name, icon, claim command and cooldown can all be changed later.
+- **Server-side only.** Players do not need to install anything, vanilla clients can join.
 
-| | |
-|---|---|
-| Minecraft | 1.21.11 |
-| Loader | [Fabric](https://fabricmc.net/) 0.16+ |
-| Requires | [Fabric API](https://modrinth.com/mod/fabric-api) |
-| Java | 21 |
+## Which file do I download?
+
+Pick the file that matches **what your server runs**, from the [latest release](../../releases/latest).
+
+| Your server | Download | Minecraft versions | Status |
+|---|---|---|---|
+| **Paper**, **Spigot**, **Purpur** (plugins) | `cratekit-paper-<version>.jar` | 1.17 and newer, including 26.x | Available |
+| **Fabric** (mods) | `cratekit-fabric-mc<minecraft version>-<version>.jar` | 1.21.11 | Available |
+| Fabric for 26.x | | 26.x | Planned |
+| **NeoForge** | | | Planned |
+| **Forge** | | | Planned |
+
+Not sure what you run? Look in your server folder: a `plugins` folder means Paper/Spigot/Purpur, a `mods` folder means Fabric, NeoForge or Forge.
+
+A single Paper file covers Paper, Spigot and Purpur because they share the same plugin system. Mods (Fabric, NeoForge, Forge) are tied to one Minecraft version each, so those come as one file per Minecraft version.
 
 ## Installing
 
-1. Install [Fabric](https://fabricmc.net/use/server/) on your server and add [Fabric API](https://modrinth.com/mod/fabric-api) to the `mods` folder.
-2. Download `cratekit-<version>.jar` from the [latest release](../../releases/latest) and put it in the same `mods` folder.
-3. Restart the server.
+**Paper / Spigot / Purpur:** put `cratekit-paper-<version>.jar` in the `plugins` folder and restart the server.
 
-That is all. The `.jar` file *is* the packaged mod.
+**Fabric:** install [Fabric](https://fabricmc.net/use/server/) and [Fabric API](https://modrinth.com/mod/fabric-api), put the CrateKit file in the `mods` folder and restart.
+
+That is all. The `.jar` file *is* the packaged mod or plugin.
 
 ## Quick start
 
@@ -44,7 +53,9 @@ Or do all of it from the GUI: run `/kit`, click **Create kit**, then **Manage mo
 | `/kit preview <kit>` | Shows what is in a kit. |
 | `/<custom command>` | Claims the kit it was assigned to, if you set one. |
 
-### For admins (operators, permission level 2)
+### For admins
+
+On Paper/Spigot/Purpur this needs the permission `cratekit.admin` (operators have it by default). On Fabric it needs operator permission level 2.
 
 | Command | What it does |
 |---|---|
@@ -58,7 +69,7 @@ Or do all of it from the GUI: run `/kit`, click **Create kit**, then **Manage mo
 | `/kit give <player> <kit>` | Gives a kit to a player, ignoring the cooldown. |
 | `/kit resetcooldown <kit> [player]` | Resets the cooldown for one player or everyone. |
 | `/kit info <kit>` | Shows a kit's settings. |
-| `/kit reload` | Reloads `kits.json` from disk. |
+| `/kit reload` | Reloads the saved kits from disk. |
 
 Kit names can use letters, numbers, `_` and `-` (up to 24 characters). Custom commands follow the same rules and cannot clash with an existing command.
 
@@ -79,10 +90,12 @@ Chest menus cannot take typed input, so for names and commands the GUI closes an
 
 ## Data
 
-Everything lives in `config/cratekit/`:
+| Platform | Folder | Files |
+|---|---|---|
+| Paper / Spigot / Purpur | `plugins/CrateKit/` | `kits.yml`, `claims.yml` |
+| Fabric | `config/cratekit/` | `kits.json`, `claims.json` |
 
-- `kits.json`: your kits (safe to back up, and edit with the server stopped).
-- `claims.json`: when each player last claimed each kit.
+`kits` holds your kits (back it up, and edit it only with the server stopped). `claims` records when each player last claimed each kit.
 
 ## Building from source
 
@@ -92,14 +105,16 @@ You need Java 21.
 ./gradlew build
 ```
 
-The finished mod is `build/libs/cratekit-<version>.jar`.
+Finished files appear in `paper/build/libs/` and `fabric/build/libs/`. The Paper plugin is tested against a simulated server as part of the build.
+
+Project layout: `common/` (code shared by every platform), `paper/` (Paper/Spigot/Purpur plugin), `fabric/` (Fabric mod), `paper-tests/` (tests for the plugin).
 
 ## Releasing a new version
 
 1. Update `mod_version` in `gradle.properties` and add a section to `CHANGELOG.md`.
-2. Commit, then tag and push: `git tag v1.0.1 && git push origin v1.0.1`.
-3. GitHub Actions builds the mod and publishes a release with the `.jar` attached.
+2. Push to `main`, then on GitHub go to **Actions → Release → Run workflow** and type the version (or push a tag like `v1.2.0`).
+3. GitHub Actions builds everything and publishes a release with every `.jar` attached.
 
 ## License
 
-[MIT](LICENSE). You can use, change and share this mod freely, including on commercial servers, as long as the license text stays with it.
+[MIT](LICENSE). You can use, change and share this freely, including on commercial servers, as long as the license text stays with it.

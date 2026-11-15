@@ -1,0 +1,18 @@
+name: CrateKit
+version: '${version}'
+main: hu.cratekit.paper.CrateKitPlugin
+api-version: '1.17'
+description: Create kits from your inventory and let players claim them with custom commands. Includes a GUI.
+website: https://github.com/mogyorokremhu/CrateKit
+folia-supported: false
+commands:
+  kit:
+    description: Create, claim and manage kits
+    usage: /kit [claim|list|preview|create|edit|...]
+permissions:
+  cratekit.use:
+    description: Use kits (list, preview, claim, open the menu)
+    default: true
+  cratekit.admin:
+    description: Create, edit and delete kits
+    default: op

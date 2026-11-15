@@ -7,3 +7,5 @@ pluginManagement {
 }
 
 rootProject.name = 'cratekit'
+
+include 'common', 'paper', 'paper-tests', 'fabric'

@@ -1,0 +1,38 @@
+plugins {
+	id 'java'
+}
+
+repositories {
+	mavenCentral()
+	maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+	// Compiled against an old, stable API on purpose: that one jar then runs on Paper, Spigot and Purpur
+	// from 1.17 up to the newest versions. Never use API newer than this (or NMS/CraftBukkit internals).
+	compileOnly 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+}
+
+// Shared code lives in common/ and is compiled straight into the plugin jar.
+sourceSets.main.java.srcDir '../common/src/main/java'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_16
+	targetCompatibility = JavaVersion.VERSION_16
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.release = 16
+}
+
+processResources {
+	inputs.property 'version', project.version
+	filesMatching('plugin.yml') {
+		expand 'version': project.version
+	}
+}
+
+jar {
+	archiveBaseName = 'cratekit-paper'
+}

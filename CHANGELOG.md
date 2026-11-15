@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0]
+
+- **New: Paper, Spigot and Purpur plugin** (`cratekit-paper-<version>.jar`). One file works on Paper, Spigot and Purpur, Minecraft 1.17 and newer, with the same commands and GUI as the Fabric mod.
+- The Fabric mod is now named `cratekit-fabric-mc<minecraft version>-<version>.jar` so it is clear which Minecraft version it is for (currently 1.21.11).
+- Project restructured into one module per platform so more can be added.
+- Automated tests for the Paper plugin (commands, cooldowns, custom commands, GUI clicks, saving).
+
 ## [1.0.0]
 
 First release.

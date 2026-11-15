@@ -41,10 +41,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          JAR="build/libs/cratekit-${VERSION}.jar"
+          # Every built jar except the *-sources ones, from every platform module.
+          mapfile -t JARS < <(find paper/build/libs fabric/build/libs neoforge/build/libs forge/build/libs -name "*.jar" ! -name "*-sources.jar" 2>/dev/null)
+          echo "Attaching: ${JARS[*]}"
           if gh release view "v$VERSION" >/dev/null 2>&1; then
-            gh release upload "v$VERSION" "$JAR" --clobber
+            gh release upload "v$VERSION" "${JARS[@]}" --clobber
           else
-            gh release create "v$VERSION" "$JAR" --target "$GITHUB_SHA" \
+            gh release create "v$VERSION" "${JARS[@]}" --target "$GITHUB_SHA" \
               --title "CrateKit $VERSION" --notes-file notes.md
           fi

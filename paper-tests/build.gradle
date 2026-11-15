@@ -1,0 +1,32 @@
+plugins {
+	id 'java'
+}
+
+// Runs the Paper plugin against a simulated server (MockBukkit). Not shipped.
+repositories {
+	mavenCentral()
+	maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+dependencies {
+	testImplementation project(':paper')
+	testImplementation 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
+	testImplementation 'org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.116.3'
+	testImplementation platform('org.junit:junit-bom:5.11.4')
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+test {
+	useJUnitPlatform()
+	testLogging {
+		events 'passed', 'failed', 'skipped'
+		showStandardStreams = false
+		exceptionFormat = 'full'
+	}
+}
