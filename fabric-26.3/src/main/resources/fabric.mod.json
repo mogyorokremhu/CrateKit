@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "cratekit",
+  "version": "${version}",
+  "name": "CrateKit",
+  "description": "Create kits from your inventory, claim them with custom commands, and manage everything from a chest GUI. Server-side only: players do not need the mod.",
+  "authors": ["CrateKit contributors"],
+  "contact": {
+    "homepage": "https://github.com/mogyorokremhu/CrateKit",
+    "sources": "https://github.com/mogyorokremhu/CrateKit",
+    "issues": "https://github.com/mogyorokremhu/CrateKit/issues"
+  },
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["hu.cratekit.CrateKit"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
