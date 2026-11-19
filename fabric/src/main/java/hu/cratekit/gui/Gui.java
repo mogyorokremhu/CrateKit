@@ -1,6 +1,7 @@
 package hu.cratekit.gui;
 
 import hu.cratekit.Fmt;
+import hu.cratekit.Sounds;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.type.LoreComponent;
@@ -112,7 +113,7 @@ public abstract class Gui {
 	}
 
 	protected final void click(float pitch) {
-		player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.6f, pitch);
+		Sounds.play(player, SoundEvents.UI_BUTTON_CLICK.value(), 0.6f, pitch);
 	}
 
 	// ------------------------------------------------------------------ item builders

@@ -242,14 +242,14 @@ public final class KitCommands {
 		switch (result.status()) {
 			case SUCCESS -> {
 				Fmt.send(player, "&aYou claimed the kit &e" + name + "&a!");
-				player.playSound(SoundEvents.PLAYER_LEVELUP, 0.6f, 1.2f);
+				Sounds.play(player, SoundEvents.PLAYER_LEVELUP, 0.6f, 1.2f);
 				return 1;
 			}
 			case COOLDOWN -> Fmt.send(player, "&cYou can claim &e" + name + " &cagain in &f" + Fmt.duration(result.remainingSeconds()) + "&c.");
 			case ONCE -> Fmt.send(player, "&cYou have already claimed &e" + name + "&c, it can only be claimed once.");
 			case EMPTY -> Fmt.send(player, "&cThe kit &e" + name + " &cis empty.");
 		}
-		player.playSound(SoundEvents.VILLAGER_NO, 0.7f, 1f);
+		Sounds.play(player, SoundEvents.VILLAGER_NO, 0.7f, 1f);
 		return 0;
 	}
 }

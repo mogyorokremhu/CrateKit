@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.1]
+
+- **Fixed (Fabric): other players could hear your menu and claim sounds.** Sounds are now played only to the player who clicked. This affects both Fabric builds. The Paper, Spigot and Purpur plugin already played sounds to one player only.
+
 ## [1.2.0]
 
 - **New: Fabric for Minecraft 26.3** (`cratekit-fabric-mc26.3-<version>.jar`). Same commands, custom claim commands, cooldowns and GUI as the other versions. Needs Java 25, Fabric Loader 0.20.1 or newer and Fabric API.
