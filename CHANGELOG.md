@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0]
+
+- **New: Fabric for Minecraft 26.3** (`cratekit-fabric-mc26.3-<version>.jar`). Same commands, custom claim commands, cooldowns and GUI as the other versions. Needs Java 25, Fabric Loader 0.20.1 or newer and Fabric API.
+- The Paper, Spigot and Purpur plugin is now tested automatically against simulated Minecraft 1.21 and 26.3 servers.
+- Fabric 1.21.11 and the Paper plugin are unchanged.
+
 ## [1.1.0]
 
 - **New: Paper, Spigot and Purpur plugin** (`cratekit-paper-<version>.jar`). One file works on Paper, Spigot and Purpur, Minecraft 1.17 and newer, with the same commands and GUI as the Fabric mod.

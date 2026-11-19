@@ -16,7 +16,7 @@ Pick the file that matches **what your server runs**, from the [latest release](
 |---|---|---|---|
 | **Paper**, **Spigot**, **Purpur** (plugins) | `cratekit-paper-<version>.jar` | 1.17 and newer, including 26.x | Available |
 | **Fabric** (mods) | `cratekit-fabric-mc<minecraft version>-<version>.jar` | 1.21.11 | Available |
-| Fabric for 26.x | | 26.x | Planned |
+| **Fabric** (mods) | `cratekit-fabric-mc26.3-<version>.jar` | 26.3 (needs Java 25) | Available |
 | **NeoForge** | | | Planned |
 | **Forge** | | | Planned |
 
@@ -105,9 +105,9 @@ You need Java 21.
 ./gradlew build
 ```
 
-Finished files appear in `paper/build/libs/` and `fabric/build/libs/`. The Paper plugin is tested against a simulated server as part of the build.
+Finished files appear in `paper/build/libs/`, `fabric/build/libs/` and `fabric-26.3/build/libs/` (the last one is its own Gradle project and needs Java 25: run `./gradlew build` inside `fabric-26.3/`). The Paper plugin is tested against a simulated server as part of the build.
 
-Project layout: `common/` (code shared by every platform), `paper/` (Paper/Spigot/Purpur plugin), `fabric/` (Fabric mod), `paper-tests/` (tests for the plugin).
+Project layout: `common/` (code shared by every platform), `paper/` (Paper/Spigot/Purpur plugin), `fabric/` (Fabric mod for 1.21.11), `fabric-26.3/` (Fabric mod for 26.3), `paper-tests/` (tests for the plugin).
 
 ## Releasing a new version
 
