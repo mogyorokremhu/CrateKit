@@ -24,7 +24,9 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: |
+            25
+            21
       - uses: gradle/actions/setup-gradle@v4
       - name: Work out the version
         run: |
@@ -33,6 +35,10 @@ jobs:
           echo "VERSION=$V" >> "$GITHUB_ENV"
       - name: Build
         run: ./gradlew build -Pmod_version="$VERSION"
+      - name: Build Fabric for Minecraft 26.3 (needs Java 25)
+        run: |
+          JAVA_HOME="$JAVA_HOME_25_X64" ./gradlew build -Pmod_version="$VERSION"
+        working-directory: fabric-26.3
       - name: Extract release notes from CHANGELOG.md
         run: |
           awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" {f=1; next} /^## \[/ {f=0} f' CHANGELOG.md > notes.md
@@ -42,7 +48,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # Every built jar except the *-sources ones, from every platform module.
-          mapfile -t JARS < <(find paper/build/libs fabric/build/libs neoforge/build/libs forge/build/libs -name "*.jar" ! -name "*-sources.jar" 2>/dev/null)
+          mapfile -t JARS < <(find paper/build/libs fabric/build/libs fabric-26.3/build/libs neoforge/build/libs forge/build/libs -name "*.jar" ! -name "*-sources.jar" 2>/dev/null)
           echo "Attaching: ${JARS[*]}"
           if gh release view "v$VERSION" >/dev/null 2>&1; then
             gh release upload "v$VERSION" "${JARS[@]}" --clobber
