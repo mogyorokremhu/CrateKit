@@ -33,10 +33,15 @@ jobs:
           distribution: temurin
           java-version: 25
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          build-root-directory: fabric-26.3
-      - run: ./gradlew build
+      - name: Build
         working-directory: fabric-26.3
+        run: |
+          set +e
+          ./gradlew build 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          echo "=== COMPILE ERRORS (summary) ==="
+          grep -E "error:" -A2 build.log | grep -vE "^--$" | head -80
+          exit $status
       - uses: actions/upload-artifact@v4
         with:
           name: cratekit-fabric-26.3-jar

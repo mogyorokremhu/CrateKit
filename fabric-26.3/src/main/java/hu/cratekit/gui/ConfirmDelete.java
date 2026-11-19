@@ -23,13 +23,13 @@ public final class ConfirmDelete extends Gui {
 
 	@Override
 	protected void build() {
-		set(11, button(Items.LIME_CONCRETE, "&a&lYes, delete it", "&7This cannot be undone."), c -> {
+		set(11, button(Items.CONCRETE.lime(), "&a&lYes, delete it", "&7This cannot be undone."), c -> {
 			CrateKit.kits().delete(kit);
 			Fmt.send(player, "Deleted kit &e" + kit.name + "&7.");
 			new KitMenu(player, true).open();
 		});
 		set(13, decorate(kit.menuIcon(), "&e" + kit.displayName, java.util.List.of("&7" + kit.items.size() + " stacks")));
-		set(15, button(Items.RED_CONCRETE, "&c&lNo, keep it"), c -> new KitEditor(player, kit).open());
+		set(15, button(Items.CONCRETE.red(), "&c&lNo, keep it"), c -> new KitEditor(player, kit).open());
 		fillEmpty();
 	}
 }

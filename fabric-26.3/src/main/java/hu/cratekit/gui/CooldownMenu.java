@@ -29,10 +29,10 @@ public final class CooldownMenu extends Gui {
 		for (int i = 0; i < PRESETS.length; i++) {
 			long seconds = PRESETS[i];
 			boolean current = kit.cooldownSeconds == seconds;
-			set(i < 5 ? 10 + i : 19 + (i - 5), button(current ? Items.LIME_CONCRETE : Items.CLOCK,
+			set(i < 5 ? 10 + i : 19 + (i - 5), button(current ? Items.CONCRETE.lime() : Items.CLOCK,
 				(current ? "&a" : "&e") + Fmt.cooldown(seconds), current ? "&aCurrently selected" : "&7Click to select"), c -> choose(seconds));
 		}
-		set(15, button(kit.cooldownSeconds == Kit.ONCE ? Items.LIME_CONCRETE : Items.RED_CONCRETE, "&cOne-time only",
+		set(15, button(kit.cooldownSeconds == Kit.ONCE ? Items.CONCRETE.lime() : Items.CONCRETE.red(), "&cOne-time only",
 			"&7Each player can claim this kit once.", kit.cooldownSeconds == Kit.ONCE ? "&aCurrently selected" : "&7Click to select"), c -> choose(Kit.ONCE));
 		set(16, button(Items.WRITABLE_BOOK, "&bCustom time", "&7Examples: &f45m&7, &f2h 30m&7, &f1d 12h", "", "&eClick, then type in chat"), c ->
 			ChatPrompt.ask(player, "Type the cooldown &8(e.g. &f30m&8, &f2h 30m&8, &f1d&8, &fnone&8, &fonce&8)&7:", input -> {

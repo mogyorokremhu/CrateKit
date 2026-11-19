@@ -76,11 +76,11 @@ public final class KitContentsEditor extends Gui {
 	private void fillEmptyBottomOnly() {
 		for (int i = 46; i < 54; i++) {
 			if (i != 47 && i != 49) {
-				set(i, button(Items.GRAY_STAINED_GLASS_PANE, "&8 "));
+				set(i, button(Items.STAINED_GLASS_PANE.gray(), "&8 "));
 			}
 		}
-		set(46, button(Items.GRAY_STAINED_GLASS_PANE, "&8 "));
-		set(48, button(Items.GRAY_STAINED_GLASS_PANE, "&8 "));
+		set(46, button(Items.STAINED_GLASS_PANE.gray(), "&8 "));
+		set(48, button(Items.STAINED_GLASS_PANE.gray(), "&8 "));
 	}
 
 	@Override

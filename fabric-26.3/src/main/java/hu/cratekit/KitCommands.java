@@ -14,7 +14,6 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -243,14 +242,14 @@ public final class KitCommands {
 		switch (result.status()) {
 			case SUCCESS -> {
 				Fmt.send(player, "&aYou claimed the kit &e" + name + "&a!");
-				player.playNotifySound(SoundEvents.PLAYER_LEVELUP, SoundSource.PLAYERS, 0.6f, 1.2f);
+				player.playSound(SoundEvents.PLAYER_LEVELUP, 0.6f, 1.2f);
 				return 1;
 			}
 			case COOLDOWN -> Fmt.send(player, "&cYou can claim &e" + name + " &cagain in &f" + Fmt.duration(result.remainingSeconds()) + "&c.");
 			case ONCE -> Fmt.send(player, "&cYou have already claimed &e" + name + "&c, it can only be claimed once.");
 			case EMPTY -> Fmt.send(player, "&cThe kit &e" + name + " &cis empty.");
 		}
-		player.playNotifySound(SoundEvents.VILLAGER_NO, SoundSource.PLAYERS, 0.7f, 1f);
+		player.playSound(SoundEvents.VILLAGER_NO, 0.7f, 1f);
 		return 0;
 	}
 }

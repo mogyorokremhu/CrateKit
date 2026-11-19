@@ -16,6 +16,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.Equippable;
@@ -198,7 +199,7 @@ public final class KitManager {
 			}
 			player.getInventory().add(stack);
 			if (!stack.isEmpty()) {
-				player.drop(stack, false);
+				player.drop(stack, false, Prediction.SERVER_ONLY);
 			}
 		}
 	}

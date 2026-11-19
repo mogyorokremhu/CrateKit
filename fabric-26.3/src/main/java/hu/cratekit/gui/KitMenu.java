@@ -95,7 +95,7 @@ public final class KitMenu extends Gui {
 					new KitEditor(player, kit).open();
 				});
 			});
-			set(51, button(manage ? Items.LIME_DYE : Items.GRAY_DYE, manage ? "&aManage mode: ON" : "&7Manage mode: OFF",
+			set(51, button(manage ? Items.DYE.lime() : Items.DYE.gray(), manage ? "&aManage mode: ON" : "&7Manage mode: OFF",
 				"&7When on, left-click a kit to edit it.", "&eClick to toggle"), c -> {
 				manage = !manage;
 				click(1f);

@@ -6,14 +6,13 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -105,7 +104,7 @@ public abstract class Gui {
 	}
 
 	protected final void fillEmpty() {
-		ItemStack filler = button(Items.GRAY_STAINED_GLASS_PANE, "&8 ");
+		ItemStack filler = button(Items.STAINED_GLASS_PANE.gray(), "&8 ");
 		for (int i = 0; i < actions.length; i++) {
 			if (container.getItem(i).isEmpty()) {
 				container.setItem(i, filler.copy());
@@ -114,7 +113,7 @@ public abstract class Gui {
 	}
 
 	protected final void click(float pitch) {
-		player.playNotifySound(SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.MASTER, 0.6f, pitch);
+		player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 0.6f, pitch);
 	}
 
 	// ------------------------------------------------------------------ item builders
@@ -164,10 +163,10 @@ public abstract class Gui {
 		}
 
 		@Override
-		public void clicked(int slotIndex, int button, ClickType clickType, Player clicker) {
-			boolean usable = clickType == ClickType.PICKUP || clickType == ClickType.QUICK_MOVE;
+		public void clicked(int slotIndex, int button, ContainerInput input, Player clicker) {
+			boolean usable = input == ContainerInput.PICKUP || input == ContainerInput.QUICK_MOVE;
 			if (usable) {
-				Click click = new Click(button, clickType == ClickType.QUICK_MOVE);
+				Click click = new Click(button, input == ContainerInput.QUICK_MOVE);
 				if (slotIndex >= 0 && slotIndex < actions.length) {
 					Action action = actions[slotIndex];
 					if (action != null) {
