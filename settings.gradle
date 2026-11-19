@@ -8,4 +8,8 @@ pluginManagement {
 
 rootProject.name = 'cratekit'
 
-include 'common', 'paper', 'paper-tests', 'fabric'
+include 'common', 'paper', 'paper-tests'
+// Pass -PonlyPaper to skip the Fabric module (used when testing under Java 25, where Fabric 1.21.11 tooling is not needed).
+if (!settings.hasProperty('onlyPaper')) {
+	include 'fabric'
+}

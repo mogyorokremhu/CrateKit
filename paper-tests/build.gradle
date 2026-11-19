@@ -3,6 +3,17 @@ plugins {
 }
 
 // Runs the Paper plugin against a simulated server (MockBukkit). Not shipped.
+//   ./gradlew :paper-tests:test                  -> tests against Minecraft 1.21.x (Java 21)
+//   ./gradlew :paper-tests:test -PtestTarget=26.3 -> tests against Minecraft 26.3 (needs Java 25)
+def target = findProperty('testTarget') ?: '1.21'
+def targets = [
+	'1.21': [api: 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT', mock: 'org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.116.3'],
+	'26.3': [api: 'io.papermc.paper:paper-api:26.3.build.252-stable', mock: 'org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.122.0'],
+]
+if (!targets.containsKey(target)) {
+	throw new GradleException("Unknown testTarget '${target}'. Use one of: ${targets.keySet()}")
+}
+
 repositories {
 	mavenCentral()
 	maven { url = 'https://repo.papermc.io/repository/maven-public/' }
@@ -10,23 +21,21 @@ repositories {
 
 dependencies {
 	testImplementation project(':paper')
-	testImplementation 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
-	testImplementation 'org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.116.3'
+	testImplementation targets[target].api
+	testImplementation targets[target].mock
 	testImplementation platform('org.junit:junit-bom:5.11.4')
 	testImplementation 'org.junit.jupiter:junit-jupiter'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+tasks.withType(JavaCompile).configureEach {
+	options.release = 21
 }
 
 test {
 	useJUnitPlatform()
 	testLogging {
 		events 'passed', 'failed', 'skipped'
-		showStandardStreams = false
 		exceptionFormat = 'full'
 	}
 }
